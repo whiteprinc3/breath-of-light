@@ -661,6 +661,7 @@
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
+            position: relative;
         }
         
         .member-avatar {
@@ -1463,6 +1464,125 @@
             margin: 0 auto;
             font-size: 1.2em;
         }
+
+        /* Стили для невакантных карточек среднего состава */
+        .member-card:not(.vacant) {
+            position: relative;
+        }
+
+        .member-card:not(.vacant)::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 22px;
+            height: 22px;
+            background: linear-gradient(135deg, var(--gold), #ffed4e);
+            color: #000000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 
+                0 0 10px rgba(255, 215, 0, 0.5),
+                0 2px 4px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.7);
+            z-index: 10;
+            transition: var(--transition);
+        }
+
+        .member-card:not(.vacant):hover::after {
+            background: linear-gradient(135deg, #ffed4e, var(--gold));
+            transform: scale(1.1);
+            box-shadow: 
+                0 0 15px rgba(255, 215, 0, 0.7),
+                0 3px 6px rgba(0, 0, 0, 0.4);
+            border: 1px solid #ffed4e;
+        }
+
+        .member-card:not(.vacant):hover .member-avatar {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.6) !important;
+        }
+
+        .member-card:not(.vacant):hover .member-name {
+            background: linear-gradient(45deg, var(--gold), #ffed4e, var(--gold)) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+        }
+
+        .member-card:not(.vacant):hover .member-rank {
+            color: var(--gold) !important;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.4) !important;
+        }
+
+        .member-card.vacant:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 2px dashed var(--gold) !important;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3) !important;
+        }
+
+        /* Кровавая тема для невакантных карточек */
+        [data-theme="blood"] .member-card:not(.vacant)::after {
+            background: linear-gradient(135deg, #FFFFFF, #FFDDDD) !important;
+            color: #8b6b00 !important;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.5),
+                0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="blood"] .member-card:not(.vacant):hover::after {
+            background: linear-gradient(135deg, #FFFFFF, #FFFFFF) !important;
+            color: #605100 !important;
+            transform: scale(1.1);
+            box-shadow: 
+                0 0 15px rgba(255, 255, 255, 0.7),
+                0 3px 6px rgba(0, 0, 0, 0.4);
+            border: 1px solid #FFFFFF;
+        }
+
+        [data-theme="blood"] .member-card:not(.vacant):hover {
+            background: linear-gradient(
+                135deg,
+                rgba(42, 36, 0, 0.9),
+                rgba(60, 49, 0, 0.7)
+            ) !important;
+            border: 1px solid #dcbe14 !important;
+            transform: translateY(-15px) scale(1.02) !important;
+            z-index: 100 !important;
+            box-shadow: 
+                0 20px 50px rgba(139, 102, 0, 0.5),
+                0 0 30px rgba(220, 190, 20, 0.4) !important;
+        }
+
+        [data-theme="blood"] .member-card:not(.vacant):hover .member-avatar {
+            box-shadow: 
+                0 0 25px rgba(139, 102, 0, 0.6),
+                0 0 15px rgba(220, 190, 20, 0.5) !important;
+            border-color: rgba(220, 190, 20, 0.8) !important;
+        }
+
+        [data-theme="blood"] .member-card:not(.vacant):hover .member-name {
+            background: linear-gradient(45deg, #dcad14, #ffe366, #dcb714) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+        }
+
+        [data-theme="blood"] .member-card:not(.vacant):hover .member-rank {
+            color: #fff599 !important;
+            text-shadow: 0 0 10px rgba(139, 118, 0, 0.5) !important;
+        }
+
+        [data-theme="blood"] .member-card.vacant:hover {
+            background: rgba(26, 22, 0, 0.6) !important;
+            border: 2px dashed rgba(220, 190, 20, 0.8) !important;
+            box-shadow: 0 0 20px rgba(220, 207, 20, 0.3) !important;
+            transform: translateY(-5px) scale(1.02);
+        }
     </style>
 </head>
 <body>
@@ -1681,7 +1801,7 @@
                     </div>
                     <div class="activity-item">
                         <div class="activity-name"><i class="fas fa-flag"></i> Захват точек (4 точки = 2 балла)</div>
-                        <div class="activity-points">3 балла</div>
+                        <div class="activity-points">2 балла</div>
                     </div>
                     <div class="activity-item">
                         <div class="activity-name"><i class="fas fa-dumbbell"></i> Участие в МП (Тренировки и т.п.)</div>
@@ -1878,7 +1998,7 @@
                     <h2 class="category-title">Командный состав</h2>
                     <div class="members-grid">
                         <div class="member-card">
-                            <div class="member-avatar"><i class="fas fa-shield-alt"></i></div>
+                            <div class="member-avatar"><i class="fas fa-sun"></i></div>
                             <div class="member-rank">Столп стиля Света</div>
                             <div class="member-name">Lin Seikage</div>
                             <div class="member-role">Hashira[12]<br>Высшее руководство</div>
@@ -1908,22 +2028,22 @@
                 <div class="team-category">
                     <h2 class="category-title">Средний Состав</h2>
                     <div class="members-grid">
-                        <div class="member-card vacant">
-                            <div class="member-avatar"><i class="fas fa-user"></i></div>
+                        <div class="member-card">
+                            <div class="member-avatar"><i class="fas fa-shield-alt"></i></div>
                             <div class="member-rank">Инструктор Света</div>
                             <div class="member-name">Nico Kobayasi</div>
                             <div class="member-role">Kinoe[11]</div>
                         </div>
 
-                        <div class="member-card vacant">
-                            <div class="member-avatar"><i class="fas fa-user"></i></div>
+                        <div class="member-card">
+                            <div class="member-avatar"><i class="fas fa-shield-alt"></i></div>
                             <div class="member-rank">Инструктор Света</div>
                             <div class="member-name">Ritsuka Yamaoki</div>
                             <div class="member-role">Kinoe[11]</div>
                         </div>
 
                         <div class="member-card vacant">
-                            <div class="member-avatar"><i class="fas fa-user"></i></div>
+                            <div class="member-avatar"><i class="fas fa-shield-alt"></i></div>
                             <div class="member-rank">Инструктор Света</div>
                             <div class="member-name">[Вакантно]</div>
                             <div class="member-role">Свободная позиция</div>
@@ -1937,7 +2057,7 @@
                         <div class="member-card">
                             <div class="member-avatar"><i class="fas fa-user"></i></div>
                             <div class="member-rank">Истребитель Света</div>
-                            <div class="member-name">[Вакантно]</div>
+                            <div class="member-name">Nakoto Hosito</div>
                             <div class="member-role">Свободная позиция</div>
                         </div>
                         
@@ -1950,10 +2070,10 @@
 
                         <div class="member-card">
                             <div class="member-avatar"><i class="fas fa-user"></i></div>
-                            <div class="member-rank">Истребитель Света</div>
-                            <div class="member-name">Nakto Hosito</div>
-                            <div class="member-role">Midzunoto[2]</div>
-                        </div>
+                            <div class="member-rank">Ученик Света</div>
+                            <div class="member-name">Ayamo Morita</div>
+                            <div class="member-role">Seito[1]</div>
+                        </div>                             
 
                         <div class="member-card">
                             <div class="member-avatar"><i class="fas fa-user"></i></div>
@@ -1962,11 +2082,11 @@
                             <div class="member-role">Seito[1]</div>
                         </div>
                         
-                        <div class="member-card">
+                        <div class="member-card vacant">
                             <div class="member-avatar"><i class="fas fa-user"></i></div>
-                            <div class="member-rank">Ученик Света</div>
-                            <div class="member-name">Ayamo Morita</div>
-                            <div class="member-role">Seito[1]</div>
+                            <div class="member-rank">Истребитель Света</div>
+                            <div class="member-name">[Вакантно]</div>
+                            <div class="member-role">Свободная позиция</div>
                         </div>
                     </div>
                 </div>
@@ -2330,4 +2450,3 @@
     </script>
 </body>
 </html>
-
